@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- VERSION: v25-GRID-ALIGNED-ROW-OFFSETS -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,10 +14,14 @@
 
         body {
             font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
-            background: #F9F3E5;
+            background-color: #F9F3E5;
+            background-repeat: repeat;
+            background-position: 0 0;
             min-height: 100vh;
             color: #000000;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
 
         .container {
@@ -788,6 +793,11 @@
                 // Setup event listeners
                 setupEventListeners();
                 
+                // Initialize aspect background AFTER main data loads
+                initAspectBackground().catch(err => {
+                    console.warn('Aspect background failed to load:', err);
+                });
+                
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('loadingProgress').innerHTML = 
@@ -1262,6 +1272,135 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        // ===== ASPECT BACKGROUND PATTERN =====
+        async function initAspectBackground() {
+            try {
+                console.log('[Aspect BG] Starting initialization...');
+                
+                // Load aspect registry
+                const response = await fetch('aspect_registry.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch aspect registry: ${response.status}`);
+                }
+                const registry = await response.json();
+                console.log(`[Aspect BG] Loaded ${registry.aspects.length} aspects`);
+                
+                // Create a temporary canvas for generating the tile
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Create a multi-row tile with varied horizontal offsets per row
+                // Single row with enough icons to show variety of aspects
+                const size = 30;
+                const spacing = 80;
+                
+                const horizontalCells = 70;
+                const verticalCells = 20; // Multiple rows for variety
+                
+                const tileWidth = spacing * horizontalCells;   // 5600px
+                const tileHeight = spacing * verticalCells;    // 1600px
+                
+                canvas.width = tileWidth;
+                canvas.height = tileHeight;
+                console.log(`[Aspect BG] Generating ${tileWidth}x${tileHeight} tile (${horizontalCells} cols × ${verticalCells} rows)...`);
+                
+                // Load all aspect images
+                const aspectImages = [];
+                for (const aspect of registry.aspects) {
+                    try {
+                        const img = new Image();
+                        img.src = `aspect_images_colored/${aspect.tag}.png`;
+                        await new Promise((resolve, reject) => {
+                            img.onload = () => resolve();
+                            img.onerror = () => reject(new Error(`Failed to load ${aspect.tag}.png`));
+                            setTimeout(() => reject(new Error(`Timeout loading ${aspect.tag}.png`)), 5000);
+                        });
+                        
+                        aspectImages.push({
+                            img: img,
+                            tag: aspect.tag
+                        });
+                    } catch (e) {
+                        console.warn(`[Aspect BG] Failed to load aspect: ${aspect.tag}`, e);
+                    }
+                }
+                
+                console.log(`[Aspect BG] Loaded ${aspectImages.length}/${registry.aspects.length} aspect images`);
+                
+                if (aspectImages.length === 0) {
+                    throw new Error('No aspect images loaded');
+                }
+                
+                // Fill with base tan color
+                ctx.fillStyle = '#F9F3E5';
+                ctx.fillRect(0, 0, tileWidth, tileHeight);
+                
+                // Seeded random function for deterministic "randomness"
+                function seededRandom(seed) {
+                    const x = Math.sin(seed) * 10000;
+                    return x - Math.floor(x);
+                }
+                
+                // Draw icons in a diagonal grid with varied row offsets
+                let drawnCount = 0;
+                const aspectUsageCount = new Map();
+                
+                for (let row = 0; row < verticalCells; row++) {
+                    // Each row gets a deterministic horizontal offset for variety
+                    // But offset must be multiple of spacing to maintain grid alignment
+                    const rowSeed = row * 7919; // Prime number for good distribution
+                    const offsetSteps = Math.floor(seededRandom(rowSeed) * horizontalCells);
+                    const rowOffset = offsetSteps * spacing; // Keep grid aligned!
+                    
+                    for (let col = 0; col < horizontalCells; col++) {
+                        // Deterministic seed based on position
+                        const seed = row * 10000 + col * 137;
+                        
+                        // Deterministic aspect selection
+                        const aspectIndex = Math.floor(seededRandom(seed) * aspectImages.length);
+                        const aspectData = aspectImages[aspectIndex];
+                        
+                        // Track usage
+                        aspectUsageCount.set(aspectData.tag, (aspectUsageCount.get(aspectData.tag) || 0) + 1);
+                        
+                        // Diagonal grid pattern: offset every other row by half spacing
+                        const diagonalOffset = (row % 2) * (spacing / 2);
+                        
+                        // Add row-specific horizontal offset (already multiple of spacing, so modulo keeps alignment)
+                        const x = (col * spacing + diagonalOffset + rowOffset + (spacing / 2)) % tileWidth;
+                        const y = row * spacing + (spacing / 2);
+                        
+                        // Deterministic jitter for organic look
+                        const jitterX = (seededRandom(seed + 1) * 10 - 5);
+                        const jitterY = (seededRandom(seed + 2) * 10 - 5);
+                        
+                        ctx.save();
+                        ctx.translate(x + jitterX, y + jitterY);
+                        
+                        // Draw the prebaked colored image
+                        ctx.drawImage(aspectData.img, -size/2, -size/2, size, size);
+                        
+                        ctx.restore();
+                        drawnCount++;
+                    }
+                }
+                
+                console.log(`[Aspect BG] Drew ${drawnCount} aspect icons in tile`);
+                console.log(`[Aspect BG] Used ${aspectUsageCount.size}/${aspectImages.length} unique aspects`);
+                
+                // Convert canvas to data URL and apply to body background
+                const dataURL = canvas.toDataURL('image/png');
+                document.body.style.backgroundImage = `url(${dataURL})`;
+                
+                console.log('[Aspect BG] Applied repeating tile to body background');
+                console.log('[Aspect BG] Initialization complete!');
+                
+            } catch (error) {
+                console.error('[Aspect BG] Failed to initialize:', error);
+                throw error;
+            }
         }
     </script>
 </body>

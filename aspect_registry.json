@@ -1,0 +1,1464 @@
+{
+  "exportDate": "2026-08-18 15:00:26",
+  "totalAspects": 69,
+  "aspects": [
+    {
+      "tag": "aer",
+      "name": "Aer",
+      "color": 16777086,
+      "hexColor": "#FFFF7E",
+      "red": 255,
+      "green": 255,
+      "blue": 126,
+      "isPrimal": true,
+      "imagePath": "thaumcraft:textures/aspects/aer.png",
+      "exportedImagePath": "aspect_images/aer.png"
+    },
+    {
+      "tag": "terra",
+      "name": "Terra",
+      "color": 5685248,
+      "hexColor": "#56C000",
+      "red": 86,
+      "green": 192,
+      "blue": 0,
+      "isPrimal": true,
+      "imagePath": "thaumcraft:textures/aspects/terra.png",
+      "exportedImagePath": "aspect_images/terra.png"
+    },
+    {
+      "tag": "ignis",
+      "name": "Ignis",
+      "color": 16734721,
+      "hexColor": "#FF5A01",
+      "red": 255,
+      "green": 90,
+      "blue": 1,
+      "isPrimal": true,
+      "imagePath": "thaumcraft:textures/aspects/ignis.png",
+      "exportedImagePath": "aspect_images/ignis.png"
+    },
+    {
+      "tag": "aqua",
+      "name": "Aqua",
+      "color": 3986684,
+      "hexColor": "#3CD4FC",
+      "red": 60,
+      "green": 212,
+      "blue": 252,
+      "isPrimal": true,
+      "imagePath": "thaumcraft:textures/aspects/aqua.png",
+      "exportedImagePath": "aspect_images/aqua.png"
+    },
+    {
+      "tag": "ordo",
+      "name": "Ordo",
+      "color": 14013676,
+      "hexColor": "#D5D4EC",
+      "red": 213,
+      "green": 212,
+      "blue": 236,
+      "isPrimal": true,
+      "imagePath": "thaumcraft:textures/aspects/ordo.png",
+      "exportedImagePath": "aspect_images/ordo.png"
+    },
+    {
+      "tag": "perditio",
+      "name": "Perditio",
+      "color": 4210752,
+      "hexColor": "#404040",
+      "red": 64,
+      "green": 64,
+      "blue": 64,
+      "isPrimal": true,
+      "imagePath": "thaumcraft:textures/aspects/perditio.png",
+      "exportedImagePath": "aspect_images/perditio.png"
+    },
+    {
+      "tag": "vacuos",
+      "name": "Vacuos",
+      "color": 8947848,
+      "hexColor": "#888888",
+      "red": 136,
+      "green": 136,
+      "blue": 136,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/vacuos.png",
+      "exportedImagePath": "aspect_images/vacuos.png"
+    },
+    {
+      "tag": "lux",
+      "name": "Lux",
+      "color": 16774755,
+      "hexColor": "#FFF663",
+      "red": 255,
+      "green": 246,
+      "blue": 99,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "ignis",
+          "name": "Ignis"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/lux.png",
+      "exportedImagePath": "aspect_images/lux.png"
+    },
+    {
+      "tag": "tempestas",
+      "name": "Tempestas",
+      "color": 16777215,
+      "hexColor": "#FFFFFF",
+      "red": 255,
+      "green": 255,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "aqua",
+          "name": "Aqua"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/tempestas.png",
+      "exportedImagePath": "aspect_images/tempestas.png"
+    },
+    {
+      "tag": "motus",
+      "name": "Motus",
+      "color": 13487348,
+      "hexColor": "#CDCCF4",
+      "red": 205,
+      "green": 204,
+      "blue": 244,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/motus.png",
+      "exportedImagePath": "aspect_images/motus.png"
+    },
+    {
+      "tag": "gelum",
+      "name": "Gelum",
+      "color": 14811135,
+      "hexColor": "#E1FFFF",
+      "red": 225,
+      "green": 255,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "ignis",
+          "name": "Ignis"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/gelum.png",
+      "exportedImagePath": "aspect_images/gelum.png"
+    },
+    {
+      "tag": "vitreus",
+      "name": "Vitreus",
+      "color": 8454143,
+      "hexColor": "#80FFFF",
+      "red": 128,
+      "green": 255,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "terra",
+          "name": "Terra"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/vitreus.png",
+      "exportedImagePath": "aspect_images/vitreus.png"
+    },
+    {
+      "tag": "victus",
+      "name": "Victus",
+      "color": 14548997,
+      "hexColor": "#DE0005",
+      "red": 222,
+      "green": 0,
+      "blue": 5,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aqua",
+          "name": "Aqua"
+        },
+        "component2": {
+          "tag": "terra",
+          "name": "Terra"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/victus.png",
+      "exportedImagePath": "aspect_images/victus.png"
+    },
+    {
+      "tag": "venenum",
+      "name": "Venenum",
+      "color": 9039872,
+      "hexColor": "#89F000",
+      "red": 137,
+      "green": 240,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aqua",
+          "name": "Aqua"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/venenum.png",
+      "exportedImagePath": "aspect_images/venenum.png"
+    },
+    {
+      "tag": "potentia",
+      "name": "Potentia",
+      "color": 12648447,
+      "hexColor": "#C0FFFF",
+      "red": 192,
+      "green": 255,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "ordo",
+          "name": "Ordo"
+        },
+        "component2": {
+          "tag": "ignis",
+          "name": "Ignis"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/potentia.png",
+      "exportedImagePath": "aspect_images/potentia.png"
+    },
+    {
+      "tag": "permutatio",
+      "name": "Permutatio",
+      "color": 5735255,
+      "hexColor": "#578357",
+      "red": 87,
+      "green": 131,
+      "blue": 87,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "perditio",
+          "name": "Perditio"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/permutatio.png",
+      "exportedImagePath": "aspect_images/permutatio.png"
+    },
+    {
+      "tag": "metallum",
+      "name": "Metallum",
+      "color": 11908557,
+      "hexColor": "#B5B5CD",
+      "red": 181,
+      "green": 181,
+      "blue": 205,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "terra",
+          "name": "Terra"
+        },
+        "component2": {
+          "tag": "vitreus",
+          "name": "Vitreus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/metallum.png",
+      "exportedImagePath": "aspect_images/metallum.png"
+    },
+    {
+      "tag": "mortuus",
+      "name": "Mortuus",
+      "color": 8943496,
+      "hexColor": "#887788",
+      "red": 136,
+      "green": 119,
+      "blue": 136,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "victus",
+          "name": "Victus"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/mortuus.png",
+      "exportedImagePath": "aspect_images/mortuus.png"
+    },
+    {
+      "tag": "volatus",
+      "name": "Volatus",
+      "color": 15198167,
+      "hexColor": "#E7E7D7",
+      "red": 231,
+      "green": 231,
+      "blue": 215,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "motus",
+          "name": "Motus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/volatus.png",
+      "exportedImagePath": "aspect_images/volatus.png"
+    },
+    {
+      "tag": "tenebrae",
+      "name": "Tenebrae",
+      "color": 2236962,
+      "hexColor": "#222222",
+      "red": 34,
+      "green": 34,
+      "blue": 34,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        },
+        "component2": {
+          "tag": "lux",
+          "name": "Lux"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/tenebrae.png",
+      "exportedImagePath": "aspect_images/tenebrae.png"
+    },
+    {
+      "tag": "spiritus",
+      "name": "Spiritus",
+      "color": 15461371,
+      "hexColor": "#EBEBFB",
+      "red": 235,
+      "green": 235,
+      "blue": 251,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "victus",
+          "name": "Victus"
+        },
+        "component2": {
+          "tag": "mortuus",
+          "name": "Mortuus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/spiritus.png",
+      "exportedImagePath": "aspect_images/spiritus.png"
+    },
+    {
+      "tag": "sano",
+      "name": "Sano",
+      "color": 16723764,
+      "hexColor": "#FF2F34",
+      "red": 255,
+      "green": 47,
+      "blue": 52,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "victus",
+          "name": "Victus"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/sano.png",
+      "exportedImagePath": "aspect_images/sano.png"
+    },
+    {
+      "tag": "iter",
+      "name": "Iter",
+      "color": 14702683,
+      "hexColor": "#E0585B",
+      "red": 224,
+      "green": 88,
+      "blue": 91,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "motus",
+          "name": "Motus"
+        },
+        "component2": {
+          "tag": "terra",
+          "name": "Terra"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/iter.png",
+      "exportedImagePath": "aspect_images/iter.png"
+    },
+    {
+      "tag": "alienis",
+      "name": "Alienis",
+      "color": 8409216,
+      "hexColor": "#805080",
+      "red": 128,
+      "green": 80,
+      "blue": 128,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        },
+        "component2": {
+          "tag": "tenebrae",
+          "name": "Tenebrae"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/alienis.png",
+      "exportedImagePath": "aspect_images/alienis.png"
+    },
+    {
+      "tag": "praecantatio",
+      "name": "Praecantatio",
+      "color": 9896128,
+      "hexColor": "#9700C0",
+      "red": 151,
+      "green": 0,
+      "blue": 192,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        },
+        "component2": {
+          "tag": "potentia",
+          "name": "Potentia"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/praecantatio.png",
+      "exportedImagePath": "aspect_images/praecantatio.png"
+    },
+    {
+      "tag": "auram",
+      "name": "Auram",
+      "color": 16761087,
+      "hexColor": "#FFC0FF",
+      "red": 255,
+      "green": 192,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "praecantatio",
+          "name": "Praecantatio"
+        },
+        "component2": {
+          "tag": "aer",
+          "name": "Aer"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/auram.png",
+      "exportedImagePath": "aspect_images/auram.png"
+    },
+    {
+      "tag": "vitium",
+      "name": "Vitium",
+      "color": 8388736,
+      "hexColor": "#800080",
+      "red": 128,
+      "green": 0,
+      "blue": 128,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "praecantatio",
+          "name": "Praecantatio"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/vitium.png",
+      "exportedImagePath": "aspect_images/vitium.png"
+    },
+    {
+      "tag": "limus",
+      "name": "Limus",
+      "color": 129024,
+      "hexColor": "#01F800",
+      "red": 1,
+      "green": 248,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "victus",
+          "name": "Victus"
+        },
+        "component2": {
+          "tag": "aqua",
+          "name": "Aqua"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/limus.png",
+      "exportedImagePath": "aspect_images/limus.png"
+    },
+    {
+      "tag": "herba",
+      "name": "Herba",
+      "color": 109568,
+      "hexColor": "#01AC00",
+      "red": 1,
+      "green": 172,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "victus",
+          "name": "Victus"
+        },
+        "component2": {
+          "tag": "terra",
+          "name": "Terra"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/herba.png",
+      "exportedImagePath": "aspect_images/herba.png"
+    },
+    {
+      "tag": "arbor",
+      "name": "Arbor",
+      "color": 8873265,
+      "hexColor": "#876531",
+      "red": 135,
+      "green": 101,
+      "blue": 49,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "herba",
+          "name": "Herba"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/arbor.png",
+      "exportedImagePath": "aspect_images/arbor.png"
+    },
+    {
+      "tag": "bestia",
+      "name": "Bestia",
+      "color": 10445833,
+      "hexColor": "#9F6409",
+      "red": 159,
+      "green": 100,
+      "blue": 9,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "motus",
+          "name": "Motus"
+        },
+        "component2": {
+          "tag": "victus",
+          "name": "Victus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/bestia.png",
+      "exportedImagePath": "aspect_images/bestia.png"
+    },
+    {
+      "tag": "corpus",
+      "name": "Corpus",
+      "color": 15615885,
+      "hexColor": "#EE478D",
+      "red": 238,
+      "green": 71,
+      "blue": 141,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "mortuus",
+          "name": "Mortuus"
+        },
+        "component2": {
+          "tag": "bestia",
+          "name": "Bestia"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/corpus.png",
+      "exportedImagePath": "aspect_images/corpus.png"
+    },
+    {
+      "tag": "exanimis",
+      "name": "Exanimis",
+      "color": 3817472,
+      "hexColor": "#3A4000",
+      "red": 58,
+      "green": 64,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "motus",
+          "name": "Motus"
+        },
+        "component2": {
+          "tag": "mortuus",
+          "name": "Mortuus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/exanimis.png",
+      "exportedImagePath": "aspect_images/exanimis.png"
+    },
+    {
+      "tag": "cognitio",
+      "name": "Cognitio",
+      "color": 16761523,
+      "hexColor": "#FFC2B3",
+      "red": 255,
+      "green": 194,
+      "blue": 179,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "ignis",
+          "name": "Ignis"
+        },
+        "component2": {
+          "tag": "spiritus",
+          "name": "Spiritus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/cognitio.png",
+      "exportedImagePath": "aspect_images/cognitio.png"
+    },
+    {
+      "tag": "sensus",
+      "name": "Sensus",
+      "color": 1038847,
+      "hexColor": "#0FD9FF",
+      "red": 15,
+      "green": 217,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "aer",
+          "name": "Aer"
+        },
+        "component2": {
+          "tag": "spiritus",
+          "name": "Spiritus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/sensus.png",
+      "exportedImagePath": "aspect_images/sensus.png"
+    },
+    {
+      "tag": "humanus",
+      "name": "Humanus",
+      "color": 16766912,
+      "hexColor": "#FFD7C0",
+      "red": 255,
+      "green": 215,
+      "blue": 192,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "bestia",
+          "name": "Bestia"
+        },
+        "component2": {
+          "tag": "cognitio",
+          "name": "Cognitio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/humanus.png",
+      "exportedImagePath": "aspect_images/humanus.png"
+    },
+    {
+      "tag": "messis",
+      "name": "Messis",
+      "color": 14791537,
+      "hexColor": "#E1B371",
+      "red": 225,
+      "green": 179,
+      "blue": 113,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "herba",
+          "name": "Herba"
+        },
+        "component2": {
+          "tag": "humanus",
+          "name": "Humanus"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/messis.png",
+      "exportedImagePath": "aspect_images/messis.png"
+    },
+    {
+      "tag": "perfodio",
+      "name": "Perfodio",
+      "color": 14471896,
+      "hexColor": "#DCD2D8",
+      "red": 220,
+      "green": 210,
+      "blue": 216,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "humanus",
+          "name": "Humanus"
+        },
+        "component2": {
+          "tag": "terra",
+          "name": "Terra"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/perfodio.png",
+      "exportedImagePath": "aspect_images/perfodio.png"
+    },
+    {
+      "tag": "instrumentum",
+      "name": "Instrumentum",
+      "color": 4210926,
+      "hexColor": "#4040EE",
+      "red": 64,
+      "green": 64,
+      "blue": 238,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "humanus",
+          "name": "Humanus"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/instrumentum.png",
+      "exportedImagePath": "aspect_images/instrumentum.png"
+    },
+    {
+      "tag": "meto",
+      "name": "Meto",
+      "color": 15641986,
+      "hexColor": "#EEAD82",
+      "red": 238,
+      "green": 173,
+      "blue": 130,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "messis",
+          "name": "Messis"
+        },
+        "component2": {
+          "tag": "instrumentum",
+          "name": "Instrumentum"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/meto.png",
+      "exportedImagePath": "aspect_images/meto.png"
+    },
+    {
+      "tag": "telum",
+      "name": "Telum",
+      "color": 12603472,
+      "hexColor": "#C05050",
+      "red": 192,
+      "green": 80,
+      "blue": 80,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "instrumentum",
+          "name": "Instrumentum"
+        },
+        "component2": {
+          "tag": "ignis",
+          "name": "Ignis"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/telum.png",
+      "exportedImagePath": "aspect_images/telum.png"
+    },
+    {
+      "tag": "tutamen",
+      "name": "Tutamen",
+      "color": 49344,
+      "hexColor": "#00C0C0",
+      "red": 0,
+      "green": 192,
+      "blue": 192,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "instrumentum",
+          "name": "Instrumentum"
+        },
+        "component2": {
+          "tag": "terra",
+          "name": "Terra"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/tutamen.png",
+      "exportedImagePath": "aspect_images/tutamen.png"
+    },
+    {
+      "tag": "fames",
+      "name": "Fames",
+      "color": 10093317,
+      "hexColor": "#9A0305",
+      "red": 154,
+      "green": 3,
+      "blue": 5,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "victus",
+          "name": "Victus"
+        },
+        "component2": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/fames.png",
+      "exportedImagePath": "aspect_images/fames.png"
+    },
+    {
+      "tag": "lucrum",
+      "name": "Lucrum",
+      "color": 15121988,
+      "hexColor": "#E6BE44",
+      "red": 230,
+      "green": 190,
+      "blue": 68,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "humanus",
+          "name": "Humanus"
+        },
+        "component2": {
+          "tag": "fames",
+          "name": "Fames"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/lucrum.png",
+      "exportedImagePath": "aspect_images/lucrum.png"
+    },
+    {
+      "tag": "fabrico",
+      "name": "Fabrico",
+      "color": 8428928,
+      "hexColor": "#809D80",
+      "red": 128,
+      "green": 157,
+      "blue": 128,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "humanus",
+          "name": "Humanus"
+        },
+        "component2": {
+          "tag": "instrumentum",
+          "name": "Instrumentum"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/fabrico.png",
+      "exportedImagePath": "aspect_images/fabrico.png"
+    },
+    {
+      "tag": "pannus",
+      "name": "Pannus",
+      "color": 15395522,
+      "hexColor": "#EAEAC2",
+      "red": 234,
+      "green": 234,
+      "blue": 194,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "instrumentum",
+          "name": "Instrumentum"
+        },
+        "component2": {
+          "tag": "bestia",
+          "name": "Bestia"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/pannus.png",
+      "exportedImagePath": "aspect_images/pannus.png"
+    },
+    {
+      "tag": "machina",
+      "name": "Machina",
+      "color": 8421536,
+      "hexColor": "#8080A0",
+      "red": 128,
+      "green": 128,
+      "blue": 160,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "motus",
+          "name": "Motus"
+        },
+        "component2": {
+          "tag": "instrumentum",
+          "name": "Instrumentum"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/machina.png",
+      "exportedImagePath": "aspect_images/machina.png"
+    },
+    {
+      "tag": "vinculum",
+      "name": "Vinculum",
+      "color": 10125440,
+      "hexColor": "#9A8080",
+      "red": 154,
+      "green": 128,
+      "blue": 128,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "motus",
+          "name": "Motus"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "thaumcraft:textures/aspects/vinculum.png",
+      "exportedImagePath": "aspect_images/vinculum.png"
+    },
+    {
+      "tag": "terminus",
+      "name": "Terminus",
+      "color": 12124160,
+      "hexColor": "#B90000",
+      "red": 185,
+      "green": 0,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "lucrum",
+          "name": "Lucrum"
+        },
+        "component2": {
+          "tag": "alienis",
+          "name": "Alienis"
+        }
+      },
+      "imagePath": "avaritia:textures/misc/terminus.png",
+      "exportedImagePath": "aspect_images/terminus.png"
+    },
+    {
+      "tag": "luxuria",
+      "name": "Luxuria",
+      "color": 16761294,
+      "hexColor": "#FFC1CE",
+      "red": 255,
+      "green": 193,
+      "blue": 206,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "corpus",
+          "name": "Corpus"
+        },
+        "component2": {
+          "tag": "fames",
+          "name": "Fames"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/luxuria.png",
+      "exportedImagePath": "aspect_images/luxuria.png"
+    },
+    {
+      "tag": "infernus",
+      "name": "Infernus",
+      "color": 16711680,
+      "hexColor": "#FF0000",
+      "red": 255,
+      "green": 0,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "ignis",
+          "name": "Ignis"
+        },
+        "component2": {
+          "tag": "praecantatio",
+          "name": "Praecantatio"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/infernus.png",
+      "exportedImagePath": "aspect_images/infernus.png"
+    },
+    {
+      "tag": "superbia",
+      "name": "Superbia",
+      "color": 9845247,
+      "hexColor": "#9639FF",
+      "red": 150,
+      "green": 57,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "volatus",
+          "name": "Volatus"
+        },
+        "component2": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/superbia.png",
+      "exportedImagePath": "aspect_images/superbia.png"
+    },
+    {
+      "tag": "gula",
+      "name": "Gula",
+      "color": 13999174,
+      "hexColor": "#D59C46",
+      "red": 213,
+      "green": 156,
+      "blue": 70,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "fames",
+          "name": "Fames"
+        },
+        "component2": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/gula.png",
+      "exportedImagePath": "aspect_images/gula.png"
+    },
+    {
+      "tag": "invidia",
+      "name": "Invidia",
+      "color": 47616,
+      "hexColor": "#00BA00",
+      "red": 0,
+      "green": 186,
+      "blue": 0,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "sensus",
+          "name": "Sensus"
+        },
+        "component2": {
+          "tag": "fames",
+          "name": "Fames"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/invidia.png",
+      "exportedImagePath": "aspect_images/invidia.png"
+    },
+    {
+      "tag": "desidia",
+      "name": "Desidia",
+      "color": 7237230,
+      "hexColor": "#6E6E6E",
+      "red": 110,
+      "green": 110,
+      "blue": 110,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vinculum",
+          "name": "Vinculum"
+        },
+        "component2": {
+          "tag": "spiritus",
+          "name": "Spiritus"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/desidia.png",
+      "exportedImagePath": "aspect_images/desidia.png"
+    },
+    {
+      "tag": "ira",
+      "name": "Ira",
+      "color": 8848388,
+      "hexColor": "#870404",
+      "red": 135,
+      "green": 4,
+      "blue": 4,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "telum",
+          "name": "Telum"
+        },
+        "component2": {
+          "tag": "ignis",
+          "name": "Ignis"
+        }
+      },
+      "imagePath": "forbidden:textures/aspects/ira.png",
+      "exportedImagePath": "aspect_images/ira.png"
+    },
+    {
+      "tag": "tempus",
+      "name": "Tempus",
+      "color": 11963647,
+      "hexColor": "#B68CFF",
+      "red": 182,
+      "green": 140,
+      "blue": 255,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "magicbees:textures/aspects/tempus.png",
+      "exportedImagePath": "aspect_images/tempus.png"
+    },
+    {
+      "tag": "strontio",
+      "name": "Strontio",
+      "color": 15647411,
+      "hexColor": "#EEC2B3",
+      "red": 238,
+      "green": 194,
+      "blue": 179,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "cognitio",
+          "name": "Cognitio"
+        },
+        "component2": {
+          "tag": "perditio",
+          "name": "Perditio"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/STRONTIO.png",
+      "exportedImagePath": "aspect_images/strontio.png"
+    },
+    {
+      "tag": "nebrisum",
+      "name": "Nebrisum",
+      "color": 15658622,
+      "hexColor": "#EEEE7E",
+      "red": 238,
+      "green": 238,
+      "blue": 126,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "perfodio",
+          "name": "Perfodio"
+        },
+        "component2": {
+          "tag": "lucrum",
+          "name": "Lucrum"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/NEBRISUM.png",
+      "exportedImagePath": "aspect_images/nebrisum.png"
+    },
+    {
+      "tag": "electrum",
+      "name": "Electrum",
+      "color": 12644078,
+      "hexColor": "#C0EEEE",
+      "red": 192,
+      "green": 238,
+      "blue": 238,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "potentia",
+          "name": "Potentia"
+        },
+        "component2": {
+          "tag": "machina",
+          "name": "Machina"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/ELECTRUM.png",
+      "exportedImagePath": "aspect_images/electrum.png"
+    },
+    {
+      "tag": "magneto",
+      "name": "Magneto",
+      "color": 12632256,
+      "hexColor": "#C0C0C0",
+      "red": 192,
+      "green": 192,
+      "blue": 192,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "metallum",
+          "name": "Metallum"
+        },
+        "component2": {
+          "tag": "iter",
+          "name": "Iter"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/MAGNETO.png",
+      "exportedImagePath": "aspect_images/magneto.png"
+    },
+    {
+      "tag": "radio",
+      "name": "Radio",
+      "color": 12648384,
+      "hexColor": "#C0FFC0",
+      "red": 192,
+      "green": 255,
+      "blue": 192,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "lux",
+          "name": "Lux"
+        },
+        "component2": {
+          "tag": "potentia",
+          "name": "Potentia"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/RADIO.png",
+      "exportedImagePath": "aspect_images/radio.png"
+    },
+    {
+      "tag": "custom1",
+      "name": "Aequalitas",
+      "color": 15659242,
+      "hexColor": "#EEF0EA",
+      "red": 238,
+      "green": 240,
+      "blue": 234,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "cognitio",
+          "name": "Cognitio"
+        },
+        "component2": {
+          "tag": "ordo",
+          "name": "Ordo"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/AEQUALITAS.png",
+      "exportedImagePath": "aspect_images/custom1.png"
+    },
+    {
+      "tag": "custom2",
+      "name": "Vesania",
+      "color": 1774124,
+      "hexColor": "#1B122C",
+      "red": 27,
+      "green": 18,
+      "blue": 44,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "cognitio",
+          "name": "Cognitio"
+        },
+        "component2": {
+          "tag": "vitium",
+          "name": "Vitium"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/VESANIA.png",
+      "exportedImagePath": "aspect_images/custom2.png"
+    },
+    {
+      "tag": "custom3",
+      "name": "Primordium",
+      "color": 16250843,
+      "hexColor": "#F7F7DB",
+      "red": 247,
+      "green": 247,
+      "blue": 219,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vacuos",
+          "name": "Vacuos"
+        },
+        "component2": {
+          "tag": "motus",
+          "name": "Motus"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/PRIMORDIUM.png",
+      "exportedImagePath": "aspect_images/custom3.png"
+    },
+    {
+      "tag": "custom4",
+      "name": "Astrum",
+      "color": 2960427,
+      "hexColor": "#2D2C2B",
+      "red": 45,
+      "green": 44,
+      "blue": 43,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "lux",
+          "name": "Lux"
+        },
+        "component2": {
+          "tag": "custom3",
+          "name": "Primordium"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/ASTRUM.png",
+      "exportedImagePath": "aspect_images/custom4.png"
+    },
+    {
+      "tag": "custom5",
+      "name": "Gloria",
+      "color": 16771456,
+      "hexColor": "#FFE980",
+      "red": 255,
+      "green": 233,
+      "blue": 128,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "humanus",
+          "name": "Humanus"
+        },
+        "component2": {
+          "tag": "iter",
+          "name": "Iter"
+        }
+      },
+      "imagePath": "gregtech:textures/aspects/GLORIA.png",
+      "exportedImagePath": "aspect_images/custom5.png"
+    },
+    {
+      "tag": "caelum",
+      "name": "Caelum",
+      "color": 6190287,
+      "hexColor": "#5E74CF",
+      "red": 94,
+      "green": 116,
+      "blue": 207,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "vitreus",
+          "name": "Vitreus"
+        },
+        "component2": {
+          "tag": "metallum",
+          "name": "Metallum"
+        }
+      },
+      "imagePath": "thaumicboots:textures/aspects/space.png",
+      "exportedImagePath": "aspect_images/caelum.png"
+    },
+    {
+      "tag": "tabernus",
+      "name": "Tabernus",
+      "color": 5014889,
+      "hexColor": "#4C8569",
+      "red": 76,
+      "green": 133,
+      "blue": 105,
+      "isPrimal": false,
+      "components": {
+        "component1": {
+          "tag": "tutamen",
+          "name": "Tutamen"
+        },
+        "component2": {
+          "tag": "iter",
+          "name": "Iter"
+        }
+      },
+      "imagePath": "thaumicboots:textures/aspects/boots.png",
+      "exportedImagePath": "aspect_images/tabernus.png"
+    }
+  ]
+}

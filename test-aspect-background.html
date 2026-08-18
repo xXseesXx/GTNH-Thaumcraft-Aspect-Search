@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aspect Background Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #F9F3E5;
+        }
+        
+        #aspectBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 1.0;
+            pointer-events: none;
+            background: #F9F3E5;
+        }
+        
+        .test-box {
+            background: white;
+            border: 4px solid black;
+            padding: 40px;
+            max-width: 800px;
+            margin: 50px auto;
+            box-shadow: 8px 8px 0 black;
+        }
+        
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 2.5em;
+        }
+        
+        .status {
+            padding: 20px;
+            background: #FFEB3B;
+            border: 3px solid black;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        #log {
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="aspectBackground"></canvas>
+    
+    <div class="test-box">
+        <h1>🎨 Aspect Background Test</h1>
+        
+        <div class="status" id="status">
+            ⏳ Loading aspect background...
+        </div>
+        
+        <h2>Instructions:</h2>
+        <ol>
+            <li>You should see colored aspect icons scattered in the background</li>
+            <li>Icons should be randomly rotated and scaled</li>
+            <li>Pattern should be subtle (25% opacity)</li>
+            <li>Check the log below for any errors</li>
+        </ol>
+        
+        <h2>Debug Log:</h2>
+        <div id="log">Initializing...\n</div>
+    </div>
+
+    <script>
+        const logEl = document.getElementById('log');
+        const statusEl = document.getElementById('status');
+        
+        // Capture console.log
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addLog(type, ...args) {
+            const msg = args.join(' ');
+            logEl.textContent += `[${type}] ${msg}\n`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            originalLog(...args);
+            addLog('LOG', ...args);
+        };
+        
+        console.error = (...args) => {
+            originalError(...args);
+            addLog('ERROR', ...args);
+        };
+        
+        console.warn = (...args) => {
+            originalWarn(...args);
+            addLog('WARN', ...args);
+        };
+
+        // ===== ASPECT BACKGROUND PATTERN =====
+        async function initAspectBackground() {
+            try {
+                console.log('[Aspect BG] Starting initialization...');
+                
+                // Load aspect registry
+                const response = await fetch('aspect_registry.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch aspect registry: ${response.status}`);
+                }
+                const registry = await response.json();
+                console.log(`[Aspect BG] Loaded ${registry.aspects.length} aspects`);
+                
+                const canvas = document.getElementById('aspectBackground');
+                if (!canvas) {
+                    throw new Error('Canvas element not found');
+                }
+                const ctx = canvas.getContext('2d');
+                
+                // Set canvas size
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                console.log(`[Aspect BG] Canvas size: ${canvas.width}x${canvas.height}`);
+                
+                // Resize canvas on window resize
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    drawAspectPattern();
+                });
+                
+                // Load all aspect images with color filters
+                const aspectImages = [];
+                let loadedCount = 0;
+                for (const aspect of registry.aspects) {
+                    try {
+                        const img = new Image();
+                        img.src = `aspect_images/${aspect.tag}.png`;
+                        await new Promise((resolve, reject) => {
+                            img.onload = () => {
+                                loadedCount++;
+                                if (loadedCount % 10 === 0) {
+                                    console.log(`[Aspect BG] Loaded ${loadedCount}/${registry.aspects.length}...`);
+                                }
+                                resolve();
+                            };
+                            img.onerror = () => reject(new Error(`Failed to load ${aspect.tag}.png`));
+                            // Timeout after 5 seconds
+                            setTimeout(() => reject(new Error(`Timeout loading ${aspect.tag}.png`)), 5000);
+                        });
+                        
+                        aspectImages.push({
+                            img: img,
+                            color: aspect.hexColor,
+                            tag: aspect.tag
+                        });
+                    } catch (e) {
+                        console.warn(`[Aspect BG] Failed to load aspect: ${aspect.tag}`, e.message);
+                    }
+                }
+                
+                console.log(`[Aspect BG] Loaded ${aspectImages.length}/${registry.aspects.length} aspect images`);
+                
+                if (aspectImages.length === 0) {
+                    throw new Error('No aspect images loaded');
+                }
+                
+                // Draw random aspect pattern
+                function drawAspectPattern() {
+                    console.log('[Aspect BG] Drawing pattern...');
+                    
+                    // Fill with base color first
+                    ctx.fillStyle = '#F9F3E5';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    const size = 48; // Size of each aspect icon
+                    const spacing = 80; // Space between icons
+                    const cols = Math.ceil(canvas.width / spacing) + 2;
+                    const rows = Math.ceil(canvas.height / spacing) + 2;
+                    
+                    let drawnCount = 0;
+                    
+                    for (let row = 0; row < rows; row++) {
+                        for (let col = 0; col < cols; col++) {
+                            // Random aspect
+                            const aspectData = aspectImages[Math.floor(Math.random() * aspectImages.length)];
+                            
+                            // Random position with some jitter
+                            const x = col * spacing + (Math.random() * 20 - 10);
+                            const y = row * spacing + (Math.random() * 20 - 10);
+                            
+                            // Random rotation
+                            const rotation = Math.random() * Math.PI * 2;
+                            
+                            // Random scale (0.5 to 1.0)
+                            const scale = 0.5 + Math.random() * 0.5;
+                            
+                            ctx.save();
+                            ctx.translate(x, y);
+                            ctx.rotate(rotation);
+                            ctx.scale(scale, scale);
+                            
+                            // Apply color filter by drawing the image multiple times with blend modes
+                            ctx.globalCompositeOperation = 'source-over';
+                            ctx.drawImage(aspectData.img, -size/2, -size/2, size, size);
+                            
+                            // Apply color tint
+                            ctx.globalCompositeOperation = 'multiply';
+                            ctx.fillStyle = aspectData.color;
+                            ctx.fillRect(-size/2, -size/2, size, size);
+                            
+                            // Restore alpha channel
+                            ctx.globalCompositeOperation = 'destination-in';
+                            ctx.drawImage(aspectData.img, -size/2, -size/2, size, size);
+                            
+                            ctx.restore();
+                            drawnCount++;
+                        }
+                    }
+                    
+                    console.log(`[Aspect BG] Drew ${drawnCount} aspect icons`);
+                }
+                
+                drawAspectPattern();
+                console.log('[Aspect BG] Initialization complete!');
+                
+                statusEl.innerHTML = '✅ Aspect background loaded successfully!';
+                statusEl.style.background = '#00FF00';
+                
+            } catch (error) {
+                console.error('[Aspect BG] Failed to initialize:', error.message);
+                statusEl.innerHTML = `❌ Failed to load: ${error.message}`;
+                statusEl.style.background = '#FF0000';
+                statusEl.style.color = '#FFFFFF';
+                throw error;
+            }
+        }
+
+        // Initialize aspect background immediately
+        initAspectBackground().catch(err => {
+            console.error('Fatal error:', err);
+        });
+    </script>
+</body>
+</html>

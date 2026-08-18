@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Cache Diagnostic</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+        }
+        .box {
+            background: #111;
+            border: 2px solid #0f0;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .red { color: #f00; }
+        .green { color: #0f0; }
+        .yellow { color: #ff0; }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover {
+            background: #0ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Browser Cache Diagnostic</h1>
+    
+    <div class="box">
+        <h2>Problem: Browser is loading CACHED version of index.html</h2>
+        <p class="yellow">Status code 304 means "Not Modified" - browser using old cached file!</p>
+    </div>
+
+    <div class="box">
+        <h2>✅ Solution 1: Force Refresh (Recommended)</h2>
+        <p><strong>Windows:</strong></p>
+        <ul>
+            <li><span class="green">Ctrl + Shift + R</span> (Chrome/Firefox/Edge)</li>
+            <li><span class="green">Ctrl + F5</span> (Most browsers)</li>
+            <li><span class="green">Shift + F5</span> (Alternative)</li>
+        </ul>
+        <p>This bypasses cache and forces fresh download!</p>
+    </div>
+
+    <div class="box">
+        <h2>✅ Solution 2: Clear Browser Cache</h2>
+        <p><strong>Chrome/Edge:</strong> Ctrl + Shift + Delete</p>
+        <ul>
+            <li>Time range: Last hour</li>
+            <li>Check: "Cached images and files"</li>
+            <li>Click "Clear data"</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>✅ Solution 3: Open in Incognito/Private Mode</h2>
+        <p><strong>Chrome/Edge:</strong> Ctrl + Shift + N</p>
+        <p><strong>Firefox:</strong> Ctrl + Shift + P</p>
+        <p>Then navigate to: <span class="green">http://localhost:8000/</span></p>
+    </div>
+
+    <div class="box">
+        <h2>✅ Solution 4: Stop & Restart Server</h2>
+        <ol>
+            <li>Press <span class="green">Ctrl + C</span> in terminal to stop server</li>
+            <li>Run: <span class="green">python -m http.server 8000</span> again</li>
+            <li>Refresh browser</li>
+        </ol>
+    </div>
+
+    <div class="box">
+        <h2>✅ Solution 5: Use Direct Link (Cache Buster)</h2>
+        <button onclick="openWithCacheBuster()">Open index.html (No Cache)</button>
+        <button onclick="openTest()">Open Test Page</button>
+        <p class="yellow" id="status"></p>
+    </div>
+
+    <div class="box">
+        <h2>🔍 Quick Check: What version do you have?</h2>
+        <p>Open index.html and check browser console (F12 → Console):</p>
+        <ul>
+            <li class="green">✅ See "[Aspect BG]" messages = NEW version</li>
+            <li class="red">❌ No "[Aspect BG]" messages = OLD cached version</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>📋 Technical Details</h2>
+        <p><strong>Your current file:</strong></p>
+        <pre>
+Location: C:\Users\fabib\Documents\Minecraft\1.7.10\ThaumicJade\webdb\static-site\index.html
+Branch: experimental-aspect-background
+Opacity: 1.0 (100%) ✅
+Background: Canvas with tan base + colored aspects ✅
+Last modified: Just now (commit c0c2b38) ✅
+        </pre>
+        <p><strong>Browser cache:</strong></p>
+        <p class="red">Probably loading old version from cache (304 status code)</p>
+    </div>
+
+    <script>
+        function openWithCacheBuster() {
+            const timestamp = new Date().getTime();
+            const url = `index.html?nocache=${timestamp}`;
+            document.getElementById('status').textContent = `Opening: ${url}`;
+            window.location.href = url;
+        }
+
+        function openTest() {
+            const timestamp = new Date().getTime();
+            window.location.href = `test-aspect-background.html?nocache=${timestamp}`;
+        }
+    </script>
+
+    <div class="box">
+        <h2>🎯 Expected Result After Fix:</h2>
+        <ul>
+            <li class="green">✅ Colored aspect icons in background (yellow, green, orange, cyan, purple)</li>
+            <li class="green">✅ Random rotations and sizes</li>
+            <li class="green">✅ Visible at 100% opacity (not subtle)</li>
+            <li class="green">✅ Pattern covers entire page</li>
+            <li class="green">✅ Console shows "[Aspect BG] Drew XXX aspect icons"</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>🚨 Still Not Working?</h2>
+        <p>Check console (F12) for errors:</p>
+        <ul>
+            <li>Look for red error messages</li>
+            <li>Look for "[Aspect BG]" messages (should be there if new version)</li>
+            <li>Check Network tab - is index.html 200 or 304?</li>
+        </ul>
+    </div>
+
+    <hr style="border-color: #0f0; margin: 40px 0;">
+
+    <div class="box">
+        <h2 class="yellow">⚡ FASTEST FIX: Try This First</h2>
+        <ol>
+            <li>Close this page</li>
+            <li>Press <span class="green">Ctrl + Shift + R</span> on index.html page</li>
+            <li>Open Console (F12)</li>
+            <li>Look for: <span class="green">[Aspect BG] Initialization complete!</span></li>
+        </ol>
+        <p class="green">If you see that message, the new version loaded! 🎉</p>
+    </div>
+
+    <p style="margin-top: 40px; text-align: center; color: #0ff;">
+        Current time: <span id="time"></span>
+    </p>
+
+    <script>
+        setInterval(() => {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>

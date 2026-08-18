@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Force Reload</title>
+    <style>
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: monospace;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 { font-size: 3em; }
+    </style>
+</head>
+<body>
+    <h1>🔄 Force Reloading...</h1>
+    <p>Adding timestamp to bypass cache...</p>
+    <script>
+        // Redirect to index.html with cache buster
+        const timestamp = new Date().getTime();
+        setTimeout(() => {
+            window.location.href = 'index.html?' + timestamp;
+        }, 1000);
+    </script>
+</body>
+</html>
