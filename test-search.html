@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Feature Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #000;
+            color: #0f0;
+        }
+        .test {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #0f0;
+        }
+        .pass { color: #0f0; }
+        .fail { color: #f00; }
+    </style>
+</head>
+<body>
+    <h1>Advanced Search Test Suite</h1>
+    <div id="results"></div>
+
+    <script>
+        function matchesSearch(text, pattern) {
+            const lowerText = text.toLowerCase();
+            const lowerPattern = pattern.toLowerCase();
+            
+            // Check for | (OR operator)
+            if (pattern.includes('|')) {
+                const parts = pattern.split('|').filter(p => p.trim().length > 0);
+                return parts.some(part => matchesSearch(text, part.trim()));
+            }
+            
+            // Try regex matching first
+            try {
+                if (/[.*+?^${}()\[\]\\]/.test(pattern)) {
+                    const regex = new RegExp(pattern, 'i');
+                    return regex.test(text);
+                }
+            } catch (e) {
+                // Fall through if regex is invalid
+            }
+            
+            // Fuzzy matching
+            if (pattern.length >= 2) {
+                let textIndex = 0;
+                let patternIndex = 0;
+                
+                while (textIndex < lowerText.length && patternIndex < lowerPattern.length) {
+                    if (lowerText[textIndex] === lowerPattern[patternIndex]) {
+                        patternIndex++;
+                    }
+                    textIndex++;
+                }
+                
+                if (patternIndex === lowerPattern.length) {
+                    return true;
+                }
+            }
+            
+            // Fall back to simple substring match
+            return lowerText.includes(lowerPattern);
+        }
+
+        function test(name, text, pattern, expected) {
+            const result = matchesSearch(text, pattern);
+            const pass = result === expected;
+            const status = pass ? 'PASS' : 'FAIL';
+            const color = pass ? 'pass' : 'fail';
+            
+            document.getElementById('results').innerHTML += `
+                <div class="test ${color}">
+                    [${status}] ${name}<br>
+                    Text: "${text}" | Pattern: "${pattern}"<br>
+                    Expected: ${expected} | Got: ${result}
+                </div>
+            `;
+            
+            return pass;
+        }
+
+        // Run tests
+        let passed = 0;
+        let total = 0;
+
+        // Simple substring tests
+        total++; if (test('Simple match', 'Diamond Sword', 'diamond', true)) passed++;
+        total++; if (test('Case insensitive', 'Diamond Sword', 'DIAMOND', true)) passed++;
+        total++; if (test('No match', 'Diamond Sword', 'iron', false)) passed++;
+
+        // Fuzzy matching tests
+        total++; if (test('Fuzzy: dmnd → diamond', 'Diamond Sword', 'dmnd', true)) passed++;
+        total++; if (test('Fuzzy: stn → stone', 'Stone Pickaxe', 'stn', true)) passed++;
+        total++; if (test('Fuzzy: irn → iron', 'Iron Ingot', 'irn', true)) passed++;
+        total++; if (test('Fuzzy: No match', 'Diamond Sword', 'xyz', false)) passed++;
+
+        // OR search tests
+        total++; if (test('OR: stone|iron (matches stone)', 'Stone Sword', 'stone|iron', true)) passed++;
+        total++; if (test('OR: stone|iron (matches iron)', 'Iron Pickaxe', 'stone|iron', true)) passed++;
+        total++; if (test('OR: stone|iron (no match)', 'Diamond Axe', 'stone|iron', false)) passed++;
+        total++; if (test('OR: Multiple terms', 'Gold Ingot', 'iron|gold|diamond', true)) passed++;
+
+        // Regex tests
+        total++; if (test('Regex: ^stone (starts with)', 'Stone Pickaxe', '^stone', true)) passed++;
+        total++; if (test('Regex: ^stone (not start)', 'Cobblestone', '^stone', false)) passed++;
+        total++; if (test('Regex: stone$ (ends with)', 'Cobblestone', 'stone$', true)) passed++;
+        total++; if (test('Regex: .*ore.* (contains)', 'Iron Ore', '.*ore.*', true)) passed++;
+        total++; if (test('Regex: Complex', 'Iron Ingot', '(iron|gold).*ingot', true)) passed++;
+
+        // Default sort verification
+        const testItems = [
+            { displayName: 'Item A', aspect_count: 3, total_amount: 10 },
+            { displayName: 'Item B', aspect_count: 2, total_amount: 15 },
+            { displayName: 'Item C', aspect_count: 2, total_amount: 20 },
+            { displayName: 'Item D', aspect_count: 1, total_amount: 5 },
+        ];
+
+        testItems.sort((a, b) => {
+            if (a.aspect_count !== b.aspect_count) {
+                return a.aspect_count - b.aspect_count;
+            }
+            if (a.total_amount !== b.total_amount) {
+                return b.total_amount - a.total_amount;
+            }
+            return a.displayName.localeCompare(b.displayName);
+        });
+
+        total++;
+        const sortCorrect = testItems[0].displayName === 'Item D' && 
+                           testItems[1].displayName === 'Item C' &&
+                           testItems[2].displayName === 'Item B' &&
+                           testItems[3].displayName === 'Item A';
+        
+        if (test('Default sort order', 
+                 `[${testItems.map(i => i.displayName).join(', ')}]`,
+                 'D(1,5) → C(2,20) → B(2,15) → A(3,10)',
+                 sortCorrect)) {
+            passed++;
+        }
+
+        // Summary
+        document.getElementById('results').innerHTML += `
+            <div class="test ${passed === total ? 'pass' : 'fail'}">
+                <h2>Summary: ${passed}/${total} tests passed</h2>
+                ${passed === total ? '✓ All tests passed!' : '✗ Some tests failed'}
+            </div>
+        `;
+    </script>
+</body>
+</html>

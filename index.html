@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thaumcraft Aspects Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+            background: #F9F3E5;
+            min-height: 100vh;
+            color: #000000;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border: 6px solid #000000;
+            box-shadow: 12px 12px 0 #000000;
+        }
+
+        header {
+            background: #FFEB3B;
+            color: #000000;
+            padding: 40px 30px;
+            border-bottom: 6px solid #000000;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
+        }
+
+        .search-panel {
+            padding: 30px;
+            background: #FFFFFF;
+            border-bottom: 6px solid #000000;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 10px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-group input[type="text"],
+        .filter-group input[type="number"],
+        .filter-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 4px solid #000000;
+            background: #FFFFFF;
+            color: #000000;
+            font-size: 1em;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
+            transition: all 0.15s;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            background: #FFEB3B;
+            box-shadow: 6px 6px 0 #000000;
+            transform: translate(-2px, -2px);
+        }
+
+        .filter-group select option {
+            background: #FFFFFF;
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .aspect-search-container {
+            width: 100%;
+        }
+
+        .aspect-search-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 4px solid #000000;
+            background: #FFFFFF;
+            color: #000000;
+            font-size: 1em;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+
+        .aspect-search-input:focus {
+            outline: none;
+            background: #FFEB3B;
+            box-shadow: 6px 6px 0 #000000;
+            transform: translate(-2px, -2px);
+        }
+
+        .aspect-dropdown {
+            position: relative;
+            left: 0;
+            right: 0;
+            margin-top: 12px;
+            background: #F5F5F5;
+            border: 4px solid #000000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            box-shadow: 8px 8px 0 #000000;
+        }
+
+        .aspect-dropdown.active {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .aspect-dropdown-inner {
+            padding: 12px;
+        }
+
+        .aspect-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .selected-aspects-bar {
+            display: block;
+            padding: 20px;
+            background: #00E5FF;
+            border: 4px solid #000000;
+            box-shadow: 8px 8px 0 #000000;
+            margin-bottom: 0;
+            min-height: 50px;
+            position: relative;
+        }
+
+        .selected-aspects-bar .aspect-search-container {
+            margin-top: 12px;
+        }
+
+        .selected-aspects-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .selected-aspect-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #FF4081;
+            color: #FFFFFF;
+            padding: 10px 16px;
+            font-size: 0.95em;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0 #000000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .selected-aspect-pill:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #000000;
+        }
+
+        .selected-aspect-pill .remove-icon {
+            font-size: 1.4em;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .aspect-checkbox {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px;
+            background: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+            border: 3px solid #000000;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        .aspect-checkbox:hover {
+            background: #FFEB3B;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 #000000;
+        }
+
+        .aspect-checkbox.checked {
+            background: #00E5FF;
+        }
+
+        .aspect-checkbox.pinned {
+            background: #00E5FF;
+            border: 3px solid #000000;
+            order: -1;
+            box-shadow: 3px 3px 0 #000000;
+        }
+
+        .aspect-checkbox.hidden {
+            display: none;
+        }
+
+        .aspect-checkbox input {
+            margin-right: 10px;
+            cursor: pointer;
+            pointer-events: none;
+            width: 20px;
+            height: 20px;
+            accent-color: #FF4081;
+        }
+
+        .aspect-checkbox label {
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #000000;
+            flex: 1;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 24px;
+        }
+
+        button {
+            padding: 16px 32px;
+            font-size: 1.1em;
+            font-weight: 900;
+            border: 4px solid #000000;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+
+        .btn-primary {
+            background: #00E5FF;
+            color: #000000;
+            flex: 1;
+            box-shadow: 6px 6px 0 #000000;
+        }
+
+        .btn-primary:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 #000000;
+            background: #00BCD4;
+        }
+
+        .btn-primary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000000;
+        }
+
+        .btn-secondary {
+            background: #FFFFFF;
+            color: #000000;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0 #000000;
+        }
+
+        .btn-secondary:hover {
+            background: #FF4081;
+            color: #FFFFFF;
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 #000000;
+        }
+
+        .btn-secondary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000000;
+        }
+
+        .results-panel {
+            padding: 30px;
+            background: #F5F5F5;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: #FFEB3B;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0 #000000;
+        }
+
+        .results-count {
+            font-size: 1.4em;
+            color: #000000;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #000000;
+            font-size: 1.3em;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .results-grid {
+            display: block;
+            overflow-x: auto;
+            border: 4px solid #000000;
+            box-shadow: 8px 8px 0 #000000;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 24px;
+            padding: 20px;
+            background: #FFEB3B;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0 #000000;
+        }
+
+        .pagination-btn {
+            padding: 12px 24px;
+            background: #00E5FF;
+            color: #000000;
+            border: 4px solid #000000;
+            cursor: pointer;
+            font-weight: 900;
+            transition: all 0.15s;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 4px 4px 0 #000000;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+
+        .pagination-btn-small {
+            padding: 6px 12px;
+            background: #00E5FF;
+            color: #000000;
+            border: 3px solid #000000;
+            cursor: pointer;
+            font-weight: 900;
+            transition: all 0.15s;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 2px 2px 0 #000000;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+
+        .pagination-btn-small:hover:not(:disabled) {
+            background: #00BCD4;
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 #000000;
+        }
+
+        .pagination-btn-small:active:not(:disabled) {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0 #000000;
+        }
+
+        .pagination-btn-small:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #000000;
+            background: #00BCD4;
+        }
+
+        .pagination-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000000;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            font-weight: 900;
+            color: #000000;
+            padding: 0 15px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #FFFFFF;
+            font-family: Arial, sans-serif;
+        }
+
+        .results-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .results-table th {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 18px 16px;
+            text-align: left;
+            font-weight: 900;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background 0.15s;
+            border-right: 3px solid #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95em;
+        }
+
+        .results-table th:last-child {
+            border-right: none;
+        }
+
+        .results-table th:hover {
+            background: #333333;
+        }
+
+        .results-table th.sortable {
+            padding-right: 45px;
+        }
+
+        .sort-indicator {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        .sort-indicator .sort-arrow {
+            font-size: 1.1em;
+            color: #00E5FF;
+        }
+
+        .results-table th.active-sort {
+            background: #FF4081;
+        }
+
+        .results-table td {
+            padding: 16px;
+            border-bottom: 3px solid #000000;
+            border-right: 1px solid #E0E0E0;
+            color: #000000;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .results-table td:last-child {
+            border-right: none;
+        }
+
+        .results-table tbody tr {
+            transition: background 0.15s;
+        }
+
+        .results-table tbody tr:hover {
+            background: #FFE082;
+        }
+
+        .results-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .item-name-cell {
+            font-weight: 900;
+            color: #000000;
+            font-size: 1.05em;
+        }
+
+        .mod-badge {
+            display: inline-block;
+            background: #00E5FF;
+            color: #000000;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            font-weight: 900;
+            border: 3px solid #000000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .aspects-cell {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-width: 300px;
+        }
+
+        .aspect-badge-small {
+            display: inline-flex;
+            align-items: center;
+            background: #FFFFFF;
+            padding: 6px 10px;
+            border: 3px solid #000000;
+            gap: 6px;
+        }
+
+        .aspect-badge-small .aspect-name {
+            font-weight: 900;
+            color: #000000;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 0.3px;
+        }
+
+        .aspect-badge-small .aspect-amount {
+            background: #FF4081;
+            color: #FFFFFF;
+            padding: 3px 8px;
+            font-size: 0.8em;
+            font-weight: 900;
+            border: 2px solid #000000;
+        }
+
+        .number-cell {
+            text-align: center;
+            font-weight: 900;
+            color: #000000;
+            font-size: 1.1em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 80px 20px;
+            color: #000000;
+        }
+
+        .no-results-icon {
+            font-size: 5em;
+            margin-bottom: 24px;
+        }
+
+        .no-results-text {
+            font-size: 1.6em;
+            margin-bottom: 12px;
+            color: #000000;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .no-results p {
+            color: #000000;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            color: #FFEB3B;
+        }
+
+        .loading-spinner h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .loading-spinner p {
+            font-size: 1.2em;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Scrollbar styling for neo-brutalist look */
+        .aspect-dropdown::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .aspect-dropdown::-webkit-scrollbar-track {
+            background: #F5F5F5;
+            border: 3px solid #000000;
+        }
+
+        .aspect-dropdown::-webkit-scrollbar-thumb {
+            background: #FF4081;
+            border: 3px solid #000000;
+        }
+
+        .aspect-dropdown::-webkit-scrollbar-thumb:hover {
+            background: #F50057;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .aspect-selector {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+
+            .container {
+                border: 4px solid #000000;
+                box-shadow: 6px 6px 0 #000000;
+            }
+
+            button {
+                padding: 14px 24px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <h2>⚡ Loading Data...</h2>
+            <p id="loadingProgress">Fetching thaumcraft aspects...</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Thaumcraft Aspects</h1>
+            <p class="subtitle" id="headerSubtitle">Loading...</p>
+        </header>
+
+        <div class="search-panel">
+            <div class="filter-group">
+                <label>Search Item Name or Mod (@modid)</label>
+                <input type="text" id="searchText" placeholder="diamond, @minecraft, stone|iron...">
+            </div>
+
+            <div class="filter-group">
+                <label>Filter by Aspects</label>
+                
+                <div class="selected-aspects-bar" id="selectedAspectsBar">
+                    <div class="selected-aspects-list" id="selectedAspectsList"></div>
+                    
+                    <!-- Aspect Search Input -->
+                    <div class="aspect-search-container">
+                        <input 
+                            type="text" 
+                            id="aspectSearchInput" 
+                            class="aspect-search-input"
+                            placeholder="Click to select aspects..."
+                            autocomplete="off"
+                        >
+                        
+                        <!-- Dropdown Aspect List -->
+                        <div class="aspect-dropdown" id="aspectDropdown">
+                            <div class="aspect-dropdown-inner">
+                                <div class="aspect-selector" id="aspectSelector">
+                                    <!-- Aspects will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="search()">Search</button>
+                <button class="btn-secondary" onclick="clearFilters()">Clear</button>
+            </div>
+        </div>
+
+        <div class="results-panel">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">Ready to search</div>
+            </div>
+            <div id="resultsContainer">
+                <div class="no-results">
+                    <div class="no-results-text">Use filters to search</div>
+                    <p>Select aspects or search by name</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global data store
+        const dataStore = {
+            items: [],
+            aspectsSet: new Set(),
+            totalItems: 0,
+            loadTime: 0
+        };
+
+        let allResults = [];
+        let currentPage = 1;
+        let itemsPerPage = 100;
+        let currentSort = { field: null, direction: 'ASC' };
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            const startTime = performance.now();
+            
+            try {
+                document.getElementById('loadingProgress').textContent = 'Fetching JSON data...';
+                
+                const response = await fetch('thaumcraft_aspects.json');
+                const data = await response.json();
+                
+                document.getElementById('loadingProgress').textContent = 'Parsing and indexing...';
+                
+                // Store items and build aspect set
+                dataStore.items = data.items;
+                dataStore.totalItems = data.totalItems || data.items.length;
+                
+                // Extract all unique aspects
+                data.items.forEach(item => {
+                    Object.keys(item.aspects).forEach(aspect => {
+                        dataStore.aspectsSet.add(aspect);
+                    });
+                });
+                
+                const endTime = performance.now();
+                dataStore.loadTime = Math.round(endTime - startTime);
+                
+                console.log(`Loaded ${dataStore.totalItems} items in ${dataStore.loadTime}ms`);
+                console.log(`Found ${dataStore.aspectsSet.size} unique aspects`);
+                
+                // Update UI
+                document.getElementById('headerSubtitle').textContent = 
+                    `${dataStore.totalItems.toLocaleString()} items • ${dataStore.aspectsSet.size} aspects`;
+                
+                // Load aspect checkboxes
+                loadAspects();
+                
+                // Hide loading overlay
+                document.getElementById('loadingOverlay').style.display = 'none';
+                
+                // Setup event listeners
+                setupEventListeners();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingProgress').innerHTML = 
+                    '<span style="color: #FF4081;">ERROR: Failed to load data!</span><br>' + error.message;
+            }
+        });
+
+        function setupEventListeners() {
+            const aspectSearchInput = document.getElementById('aspectSearchInput');
+            const aspectDropdown = document.getElementById('aspectDropdown');
+            
+            // Show dropdown when input is focused
+            aspectSearchInput.addEventListener('focus', function() {
+                aspectDropdown.classList.add('active');
+            });
+            
+            // Filter aspects as user types
+            aspectSearchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const aspectCheckboxes = document.querySelectorAll('.aspect-checkbox');
+                
+                aspectCheckboxes.forEach(checkbox => {
+                    const aspectName = checkbox.querySelector('label').textContent.toLowerCase();
+                    if (aspectName.includes(searchTerm)) {
+                        checkbox.classList.remove('hidden');
+                    } else {
+                        checkbox.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!aspectSearchInput.contains(e.target) && !aspectDropdown.contains(e.target)) {
+                    aspectDropdown.classList.remove('active');
+                }
+            });
+            
+            // Handle checkbox changes
+            document.addEventListener('change', function(e) {
+                if (e.target.type === 'checkbox' && e.target.id.startsWith('aspect_')) {
+                    updateSelectedAspectsDisplay();
+                    updateCheckboxStyles();
+                    updateAspectPinning();
+                }
+            });
+
+            // Enter key to search
+            document.getElementById('searchText').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    search();
+                }
+            });
+        }
+
+        function loadAspects() {
+            const aspects = Array.from(dataStore.aspectsSet).sort();
+            const container = document.getElementById('aspectSelector');
+            
+            container.innerHTML = aspects.map(aspect => `
+                <div class="aspect-checkbox" onclick="toggleAspectCheckbox('aspect_${aspect}')">
+                    <input type="checkbox" id="aspect_${aspect}" value="${aspect}">
+                    <label for="aspect_${aspect}">${aspect}</label>
+                </div>
+            `).join('');
+        }
+
+        function updateCheckboxStyles() {
+            document.querySelectorAll('.aspect-checkbox').forEach(div => {
+                const checkbox = div.querySelector('input[type="checkbox"]');
+                if (checkbox.checked) {
+                    div.classList.add('checked');
+                } else {
+                    div.classList.remove('checked');
+                }
+            });
+        }
+
+        function updateAspectPinning() {
+            const selectedAspects = Array.from(document.querySelectorAll('#aspectSelector input:checked'))
+                .map(input => input.value);
+            
+            document.querySelectorAll('.aspect-checkbox').forEach(checkbox => {
+                const aspectValue = checkbox.querySelector('input').value;
+                if (selectedAspects.includes(aspectValue)) {
+                    checkbox.classList.add('pinned');
+                } else {
+                    checkbox.classList.remove('pinned');
+                }
+            });
+        }
+
+        function updateSelectedAspectsDisplay() {
+            const selectedAspects = Array.from(document.querySelectorAll('#aspectSelector input:checked'))
+                .map(input => input.value);
+            
+            const list = document.getElementById('selectedAspectsList');
+            
+            if (selectedAspects.length > 0) {
+                list.innerHTML = selectedAspects.map(aspect => `
+                    <div class="selected-aspect-pill" onclick="removeAspect('${aspect}')">
+                        <span>${aspect}</span>
+                        <span class="remove-icon">×</span>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = '';
+            }
+        }
+
+        function removeAspect(aspectName) {
+            const checkbox = document.getElementById('aspect_' + aspectName);
+            if (checkbox) {
+                checkbox.checked = false;
+                updateSelectedAspectsDisplay();
+                updateCheckboxStyles();
+                updateAspectPinning();
+            }
+        }
+
+        function toggleAspectCheckbox(checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            checkbox.checked = !checkbox.checked;
+            updateSelectedAspectsDisplay();
+            updateCheckboxStyles();
+            updateAspectPinning();
+        }
+
+        function search() {
+            const startTime = performance.now();
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            resultsContainer.innerHTML = '<div class="loading">Searching...</div>';
+            resultsCount.textContent = 'Searching...';
+            
+            // Get filters
+            const searchText = document.getElementById('searchText').value.trim();
+            let itemNameFilter = '';
+            let modIdFilter = '';
+            
+            // Parse @modid syntax
+            if (searchText) {
+                const modMatch = searchText.match(/@(\S+)/);
+                if (modMatch) {
+                    modIdFilter = modMatch[1];
+                    itemNameFilter = searchText.replace(/@\S+/g, '').trim();
+                } else {
+                    itemNameFilter = searchText;
+                }
+            }
+            
+            const selectedAspects = Array.from(document.querySelectorAll('#aspectSelector input:checked'))
+                .map(input => input.value);
+            
+            // Filter items
+            let results = dataStore.items;
+            
+            // Filter by item name with advanced matching (|, fuzzy, regex)
+            if (itemNameFilter) {
+                results = results.filter(item => 
+                    matchesSearch(item.displayName, itemNameFilter)
+                );
+            }
+            
+            // Filter by mod ID with advanced matching
+            if (modIdFilter) {
+                results = results.filter(item => 
+                    matchesSearch(item.modId, modIdFilter)
+                );
+            }
+            
+            // Filter by aspects (must have ALL selected aspects)
+            if (selectedAspects.length > 0) {
+                results = results.filter(item => {
+                    return selectedAspects.every(aspect => 
+                        item.aspects.hasOwnProperty(aspect)
+                    );
+                });
+            }
+            
+            // Calculate aspect_count and total_amount for each result
+            results = results.map(item => ({
+                ...item,
+                aspect_count: Object.keys(item.aspects).length,
+                total_amount: Object.values(item.aspects).reduce((sum, val) => sum + val, 0)
+            }));
+            
+            // Apply default sorting: lowest aspect_count, then highest total_amount, then name A-Z
+            results.sort((a, b) => {
+                // First: lowest aspect count
+                if (a.aspect_count !== b.aspect_count) {
+                    return a.aspect_count - b.aspect_count;
+                }
+                // Second: highest total amount
+                if (a.total_amount !== b.total_amount) {
+                    return b.total_amount - a.total_amount;
+                }
+                // Third: name A-Z
+                return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
+            });
+            
+            const endTime = performance.now();
+            const searchTime = Math.round(endTime - startTime);
+            console.log(`Search completed in ${searchTime}ms`);
+            
+            allResults = results;
+            currentPage = 1;
+            currentSort = { field: null, direction: 'ASC' };
+            displayCurrentPage();
+        }
+
+        function matchesSearch(text, pattern) {
+            const lowerText = text.toLowerCase();
+            const lowerPattern = pattern.toLowerCase();
+            
+            // Check for | (OR operator) - e.g., "stone|iron|gold"
+            if (pattern.includes('|')) {
+                const parts = pattern.split('|').filter(p => p.trim().length > 0);
+                return parts.some(part => matchesSearch(text, part.trim()));
+            }
+            
+            // Try regex matching first
+            try {
+                // Check if pattern looks like regex (contains special chars)
+                if (/[.*+?^${}()\[\]\\]/.test(pattern)) {
+                    const regex = new RegExp(pattern, 'i');
+                    return regex.test(text);
+                }
+            } catch (e) {
+                // If regex is invalid, fall through to other methods
+            }
+            
+            // Fuzzy matching: check if all characters appear in order
+            // e.g., "stn" matches "stone", "dmnd" matches "diamond"
+            if (pattern.length >= 2) {
+                let textIndex = 0;
+                let patternIndex = 0;
+                
+                while (textIndex < lowerText.length && patternIndex < lowerPattern.length) {
+                    if (lowerText[textIndex] === lowerPattern[patternIndex]) {
+                        patternIndex++;
+                    }
+                    textIndex++;
+                }
+                
+                // If we matched all pattern characters, it's a fuzzy match
+                if (patternIndex === lowerPattern.length) {
+                    return true;
+                }
+            }
+            
+            // Fall back to simple substring match
+            return lowerText.includes(lowerPattern);
+        }
+
+        function sortByColumn(field) {
+            if (currentSort.field === field) {
+                // If clicking the same column, toggle direction
+                currentSort.direction = currentSort.direction === 'ASC' ? 'DESC' : 'ASC';
+            } else {
+                // New column, set default direction
+                currentSort.field = field;
+                currentSort.direction = field === 'total_aspects' ? 'DESC' : 'ASC';
+            }
+            
+            sortResults();
+            currentPage = 1;
+            displayCurrentPage();
+        }
+
+        function sortResults() {
+            if (!currentSort.field) {
+                // Apply default sorting
+                allResults.sort((a, b) => {
+                    // First: lowest aspect count
+                    if (a.aspect_count !== b.aspect_count) {
+                        return a.aspect_count - b.aspect_count;
+                    }
+                    // Second: highest total amount
+                    if (a.total_amount !== b.total_amount) {
+                        return b.total_amount - a.total_amount;
+                    }
+                    // Third: name A-Z
+                    return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
+                });
+                return;
+            }
+            
+            const field = currentSort.field;
+            const direction = currentSort.direction;
+            const multiplier = direction === 'ASC' ? 1 : -1;
+            
+            allResults.sort((a, b) => {
+                let aVal, bVal;
+                
+                if (field === 'name') {
+                    aVal = a.displayName.toLowerCase();
+                    bVal = b.displayName.toLowerCase();
+                } else if (field === 'mod_id') {
+                    aVal = a.modId.toLowerCase();
+                    bVal = b.modId.toLowerCase();
+                } else if (field === 'total_aspects') {
+                    aVal = a.aspect_count;
+                    bVal = b.aspect_count;
+                } else if (field === 'total_amount') {
+                    aVal = a.total_amount;
+                    bVal = b.total_amount;
+                }
+                
+                if (aVal < bVal) return -1 * multiplier;
+                if (aVal > bVal) return 1 * multiplier;
+                return 0;
+            });
+        }
+
+        function displayCurrentPage() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            if (allResults.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-text">No items found</div>
+                        <p>Try different filters</p>
+                    </div>
+                `;
+                resultsCount.textContent = '0 Results';
+                return;
+            }
+            
+            const totalPages = Math.ceil(allResults.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, allResults.length);
+            const pageResults = allResults.slice(startIndex, endIndex);
+            
+            resultsCount.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <span>${allResults.length.toLocaleString()} Results • Page ${currentPage} / ${totalPages}</span>
+                    ${totalPages > 1 ? `
+                        <div style="display: flex; gap: 6px;">
+                            <button class="pagination-btn-small" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>FIRST</button>
+                            <button class="pagination-btn-small" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>PREV</button>
+                            <button class="pagination-btn-small" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>NEXT</button>
+                            <button class="pagination-btn-small" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>LAST</button>
+                        </div>
+                    ` : ''}
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <label style="font-size: 0.85em; font-weight: 900; text-transform: uppercase;">Per page:</label>
+                        <select id="itemsPerPageSelect" onchange="changeItemsPerPage(this.value)" style="padding: 8px 12px; border: 3px solid #000000; background: #FFFFFF; color: #000000; font-weight: 700; cursor: pointer; font-family: Arial, sans-serif;">
+                            <option value="20" ${itemsPerPage === 20 ? 'selected' : ''}>20</option>
+                            <option value="50" ${itemsPerPage === 50 ? 'selected' : ''}>50</option>
+                            <option value="100" ${itemsPerPage === 100 ? 'selected' : ''}>100</option>
+                            <option value="250" ${itemsPerPage === 250 ? 'selected' : ''}>250</option>
+                            <option value="1000" ${itemsPerPage === 1000 ? 'selected' : ''}>1000</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            
+            function getSortIndicator(field) {
+                if (currentSort.field !== field) return '';
+                const arrow = currentSort.direction === 'DESC' ? '▼' : '▲';
+                return `<span class="sort-indicator"><span class="sort-arrow">${arrow}</span></span>`;
+            }
+            
+            function getActiveClass(field) {
+                return currentSort.field === field ? 'active-sort' : '';
+            }
+            
+            resultsContainer.innerHTML = `
+                <div class="results-grid">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable ${getActiveClass('mod_id')}" onclick="sortByColumn('mod_id')">
+                                    Mod
+                                    ${getSortIndicator('mod_id')}
+                                </th>
+                                <th class="sortable ${getActiveClass('name')}" onclick="sortByColumn('name')">
+                                    Item Name
+                                    ${getSortIndicator('name')}
+                                </th>
+                                <th>Aspects</th>
+                                <th class="sortable ${getActiveClass('total_aspects')}" onclick="sortByColumn('total_aspects')">
+                                    # Aspects
+                                    ${getSortIndicator('total_aspects')}
+                                </th>
+                                <th class="sortable ${getActiveClass('total_amount')}" onclick="sortByColumn('total_amount')">
+                                    Total
+                                    ${getSortIndicator('total_amount')}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${pageResults.map(item => `
+                                <tr>
+                                    <td><span class="mod-badge">${escapeHtml(item.modId)}</span></td>
+                                    <td class="item-name-cell">${escapeHtml(item.displayName)}</td>
+                                    <td>
+                                        <div class="aspects-cell">
+                                            ${Object.entries(item.aspects).map(([aspect, amount]) => `
+                                                <span class="aspect-badge-small">
+                                                    <span class="aspect-name">${escapeHtml(aspect)}</span>
+                                                    <span class="aspect-amount">${amount}</span>
+                                                </span>
+                                            `).join('')}
+                                        </div>
+                                    </td>
+                                    <td class="number-cell">${item.aspect_count}</td>
+                                    <td class="number-cell">${item.total_amount}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                ${totalPages > 1 ? `
+                    <div class="pagination">
+                        <button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>FIRST</button>
+                        <button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>PREV</button>
+                        <span class="pagination-info">Page ${currentPage} / ${totalPages}</span>
+                        <button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>NEXT</button>
+                        <button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>LAST</button>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(allResults.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            displayCurrentPage();
+        }
+
+        function changeItemsPerPage(newValue) {
+            itemsPerPage = parseInt(newValue);
+            currentPage = 1;
+            displayCurrentPage();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchText').value = '';
+            document.getElementById('aspectSearchInput').value = '';
+            
+            allResults = [];
+            currentPage = 1;
+            currentSort = { field: null, direction: 'ASC' };
+            
+            document.querySelectorAll('#aspectSelector input:checked').forEach(input => {
+                input.checked = false;
+            });
+            
+            // Show all aspects again
+            document.querySelectorAll('.aspect-checkbox').forEach(checkbox => {
+                checkbox.classList.remove('hidden', 'pinned', 'checked');
+            });
+            
+            updateSelectedAspectsDisplay();
+            updateCheckboxStyles();
+            
+            document.getElementById('resultsContainer').innerHTML = `
+                <div class="no-results">
+                    <div class="no-results-text">Use filters to search</div>
+                    <p>Select aspects or search by name</p>
+                </div>
+            `;
+            document.getElementById('resultsCount').textContent = 'Ready to search';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

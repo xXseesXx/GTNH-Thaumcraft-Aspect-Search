@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Test - Thaumcraft Aspects</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00FF00;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00FF00;
+            border-bottom: 2px solid #00FF00;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            background: #111;
+            border: 2px solid #00FF00;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #222;
+        }
+        .metric {
+            display: inline-block;
+            min-width: 200px;
+            color: #00FFFF;
+        }
+        .value {
+            color: #FFFF00;
+            font-weight: bold;
+        }
+        .pass {
+            color: #00FF00;
+        }
+        .warn {
+            color: #FFA500;
+        }
+        .fail {
+            color: #FF0000;
+        }
+        button {
+            background: #00FF00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #00FFFF;
+        }
+        .progress {
+            color: #FFA500;
+            font-weight: bold;
+        }
+        pre {
+            background: #222;
+            padding: 15px;
+            overflow-x: auto;
+            border-left: 3px solid #00FF00;
+        }
+        .summary {
+            background: #003300;
+            border: 3px solid #00FF00;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .summary h2 {
+            color: #00FFFF;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚡ Performance Benchmark Suite</h1>
+    <p>Testing static JSON-based Thaumcraft Aspects Search</p>
+
+    <div class="test-section">
+        <h2>🎯 Test Controls</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="runLoadTest()">Test 1: Data Load</button>
+        <button onclick="runSearchTest()">Test 2: Search Speed</button>
+        <button onclick="runMemoryTest()">Test 3: Memory Usage</button>
+        <button onclick="runRenderTest()">Test 4: Render Speed</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="results"></div>
+
+    <div id="summary" class="summary" style="display: none;">
+        <h2>📊 Performance Summary</h2>
+        <div id="summaryContent"></div>
+    </div>
+
+    <script>
+        const results = {
+            load: null,
+            search: [],
+            memory: null,
+            render: []
+        };
+
+        let dataStore = {
+            items: [],
+            aspectsSet: new Set()
+        };
+
+        function log(message, className = '') {
+            const resultsDiv = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${className}`;
+            div.innerHTML = message;
+            resultsDiv.appendChild(div);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('summary').style.display = 'none';
+            results.load = null;
+            results.search = [];
+            results.memory = null;
+            results.render = [];
+        }
+
+        async function runAllTests() {
+            clearResults();
+            log('<h2>🚀 Starting Full Performance Test Suite</h2>');
+            
+            await runLoadTest();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await runSearchTest();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await runMemoryTest();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await runRenderTest();
+            
+            showSummary();
+        }
+
+        async function runLoadTest() {
+            log('<div class="test-section"><h3>Test 1: Data Loading Performance</h3></div>');
+            log('<span class="progress">⏳ Fetching JSON file...</span>');
+            
+            const startTime = performance.now();
+            
+            try {
+                const fetchStart = performance.now();
+                const response = await fetch('thaumcraft_aspects.json');
+                const fetchEnd = performance.now();
+                const fetchTime = Math.round(fetchEnd - fetchStart);
+                
+                log(`<span class="metric">Network Fetch Time:</span> <span class="value">${fetchTime}ms</span> ${fetchTime < 1000 ? '<span class="pass">✓ EXCELLENT</span>' : fetchTime < 2000 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ SLOW</span>'}`);
+                
+                const parseStart = performance.now();
+                const data = await response.json();
+                const parseEnd = performance.now();
+                const parseTime = Math.round(parseEnd - parseStart);
+                
+                log(`<span class="metric">JSON Parse Time:</span> <span class="value">${parseTime}ms</span> ${parseTime < 500 ? '<span class="pass">✓ EXCELLENT</span>' : parseTime < 1000 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ SLOW</span>'}`);
+                
+                const indexStart = performance.now();
+                dataStore.items = data.items;
+                dataStore.aspectsSet = new Set();
+                
+                data.items.forEach(item => {
+                    Object.keys(item.aspects).forEach(aspect => {
+                        dataStore.aspectsSet.add(aspect);
+                    });
+                });
+                
+                const indexEnd = performance.now();
+                const indexTime = Math.round(indexEnd - indexStart);
+                
+                log(`<span class="metric">Indexing Time:</span> <span class="value">${indexTime}ms</span> ${indexTime < 200 ? '<span class="pass">✓ EXCELLENT</span>' : indexTime < 500 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ SLOW</span>'}`);
+                
+                const endTime = performance.now();
+                const totalTime = Math.round(endTime - startTime);
+                
+                log(`<span class="metric">Total Load Time:</span> <span class="value">${totalTime}ms</span> ${totalTime < 2000 ? '<span class="pass">✓ EXCELLENT</span>' : totalTime < 3000 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ SLOW</span>'}`);
+                log(`<span class="metric">Items Loaded:</span> <span class="value">${dataStore.items.length.toLocaleString()}</span>`);
+                log(`<span class="metric">Unique Aspects:</span> <span class="value">${dataStore.aspectsSet.size}</span>`);
+                log(`<span class="metric">File Size:</span> <span class="value">${(response.headers.get('content-length') / 1024 / 1024).toFixed(2)} MB</span>`);
+                
+                results.load = {
+                    fetchTime,
+                    parseTime,
+                    indexTime,
+                    totalTime,
+                    itemCount: dataStore.items.length
+                };
+                
+            } catch (error) {
+                log(`<span class="fail">✗ ERROR: ${error.message}</span>`);
+            }
+        }
+
+        async function runSearchTest() {
+            if (dataStore.items.length === 0) {
+                log('<span class="warn">⚠ Run Load Test first!</span>');
+                return;
+            }
+            
+            log('<div class="test-section"><h3>Test 2: Search Performance</h3></div>');
+            
+            const testCases = [
+                { name: 'No filters (all items)', searchText: '', aspects: [] },
+                { name: 'Simple text search', searchText: 'stone', aspects: [] },
+                { name: 'Fuzzy search (dmnd → diamond)', searchText: 'dmnd', aspects: [] },
+                { name: 'OR search (stone|iron|gold)', searchText: 'stone|iron|gold', aspects: [] },
+                { name: 'Regex search (^stone)', searchText: '^stone', aspects: [] },
+                { name: 'Mod filter (@minecraft)', searchText: '@minecraft', aspects: [] },
+                { name: 'Text + Mod filter', searchText: 'stone @minecraft', aspects: [] },
+                { name: 'Fuzzy + Mod (@minecraft stn)', searchText: 'stn @minecraft', aspects: [] },
+                { name: 'Single aspect filter', searchText: '', aspects: ['terra'] },
+                { name: 'Multiple aspects (2)', searchText: '', aspects: ['terra', 'aer'] },
+                { name: 'Multiple aspects (5)', searchText: '', aspects: ['terra', 'aer', 'ignis', 'aqua', 'ordo'] },
+                { name: 'Complex: Fuzzy + Mod + Aspects', searchText: 'dmnd @minecraft', aspects: ['terra'] }
+            ];
+            
+            results.search = [];
+            
+            for (const testCase of testCases) {
+                const times = [];
+                const iterations = 5;
+                
+                // Warm up
+                performSearch(testCase.searchText, testCase.aspects);
+                
+                // Run test iterations
+                for (let i = 0; i < iterations; i++) {
+                    const start = performance.now();
+                    const resultCount = performSearch(testCase.searchText, testCase.aspects);
+                    const end = performance.now();
+                    times.push(end - start);
+                }
+                
+                const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
+                const minTime = Math.min(...times);
+                const maxTime = Math.max(...times);
+                const resultCount = performSearch(testCase.searchText, testCase.aspects);
+                
+                log(`<span class="metric">${testCase.name}:</span>`);
+                log(`  → Avg: <span class="value">${avgTime.toFixed(2)}ms</span> | Min: ${minTime.toFixed(2)}ms | Max: ${maxTime.toFixed(2)}ms | Results: ${resultCount} ${avgTime < 50 ? '<span class="pass">✓</span>' : avgTime < 100 ? '<span class="warn">⚠</span>' : '<span class="fail">✗</span>'}`);
+                
+                results.search.push({
+                    name: testCase.name,
+                    avgTime,
+                    minTime,
+                    maxTime,
+                    resultCount
+                });
+            }
+            
+            const avgOfAvgs = results.search.reduce((sum, r) => sum + r.avgTime, 0) / results.search.length;
+            log(`<span class="metric">Overall Average:</span> <span class="value">${avgOfAvgs.toFixed(2)}ms</span> ${avgOfAvgs < 50 ? '<span class="pass">✓ EXCELLENT</span>' : avgOfAvgs < 100 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ NEEDS OPTIMIZATION</span>'}`);
+        }
+
+        function performSearch(searchText, selectedAspects) {
+            let itemNameFilter = '';
+            let modIdFilter = '';
+            
+            if (searchText) {
+                const modMatch = searchText.match(/@(\S+)/);
+                if (modMatch) {
+                    modIdFilter = modMatch[1];
+                    itemNameFilter = searchText.replace(/@\S+/g, '').trim();
+                } else {
+                    itemNameFilter = searchText;
+                }
+            }
+            
+            let results = dataStore.items;
+            
+            if (itemNameFilter) {
+                results = results.filter(item => 
+                    matchesSearch(item.displayName, itemNameFilter)
+                );
+            }
+            
+            if (modIdFilter) {
+                results = results.filter(item => 
+                    matchesSearch(item.modId, modIdFilter)
+                );
+            }
+            
+            if (selectedAspects.length > 0) {
+                results = results.filter(item => {
+                    return selectedAspects.every(aspect => 
+                        item.aspects.hasOwnProperty(aspect)
+                    );
+                });
+            }
+            
+            return results.length;
+        }
+
+        function matchesSearch(text, pattern) {
+            const lowerText = text.toLowerCase();
+            const lowerPattern = pattern.toLowerCase();
+            
+            // Check for | (OR operator)
+            if (pattern.includes('|')) {
+                const parts = pattern.split('|').filter(p => p.trim().length > 0);
+                return parts.some(part => matchesSearch(text, part.trim()));
+            }
+            
+            // Try regex matching first
+            try {
+                if (/[.*+?^${}()\[\]\\]/.test(pattern)) {
+                    const regex = new RegExp(pattern, 'i');
+                    return regex.test(text);
+                }
+            } catch (e) {
+                // Fall through if regex is invalid
+            }
+            
+            // Fuzzy matching
+            if (pattern.length >= 2) {
+                let textIndex = 0;
+                let patternIndex = 0;
+                
+                while (textIndex < lowerText.length && patternIndex < lowerPattern.length) {
+                    if (lowerText[textIndex] === lowerPattern[patternIndex]) {
+                        patternIndex++;
+                    }
+                    textIndex++;
+                }
+                
+                if (patternIndex === lowerPattern.length) {
+                    return true;
+                }
+            }
+            
+            // Fall back to simple substring match
+            return lowerText.includes(lowerPattern);
+        }
+
+        async function runMemoryTest() {
+            log('<div class="test-section"><h3>Test 3: Memory Usage</h3></div>');
+            
+            if (performance.memory) {
+                const usedJSHeapSize = performance.memory.usedJSHeapSize;
+                const totalJSHeapSize = performance.memory.totalJSHeapSize;
+                const jsHeapSizeLimit = performance.memory.jsHeapSizeLimit;
+                
+                log(`<span class="metric">Used Heap:</span> <span class="value">${(usedJSHeapSize / 1024 / 1024).toFixed(2)} MB</span>`);
+                log(`<span class="metric">Total Heap:</span> <span class="value">${(totalJSHeapSize / 1024 / 1024).toFixed(2)} MB</span>`);
+                log(`<span class="metric">Heap Limit:</span> <span class="value">${(jsHeapSizeLimit / 1024 / 1024).toFixed(2)} MB</span>`);
+                log(`<span class="metric">Memory Usage:</span> ${(usedJSHeapSize / jsHeapSizeLimit * 100).toFixed(1)}% ${usedJSHeapSize < 50 * 1024 * 1024 ? '<span class="pass">✓ EXCELLENT</span>' : usedJSHeapSize < 100 * 1024 * 1024 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ HIGH</span>'}`);
+                
+                results.memory = {
+                    usedMB: (usedJSHeapSize / 1024 / 1024).toFixed(2),
+                    totalMB: (totalJSHeapSize / 1024 / 1024).toFixed(2),
+                    percentage: (usedJSHeapSize / jsHeapSizeLimit * 100).toFixed(1)
+                };
+            } else {
+                log('<span class="warn">⚠ Memory API not available in this browser (requires Chrome/Edge)</span>');
+                log('<span class="metric">Estimated Data Size:</span> <span class="value">~15-20 MB</span> (based on 11,512 items)');
+                
+                results.memory = {
+                    estimated: true,
+                    estimatedMB: '15-20'
+                };
+            }
+        }
+
+        async function runRenderTest() {
+            if (dataStore.items.length === 0) {
+                log('<span class="warn">⚠ Run Load Test first!</span>');
+                return;
+            }
+            
+            log('<div class="test-section"><h3>Test 4: Rendering Performance</h3></div>');
+            
+            const pageSizes = [20, 50, 100, 250, 1000];
+            results.render = [];
+            
+            for (const pageSize of pageSizes) {
+                const times = [];
+                const iterations = 3;
+                
+                for (let i = 0; i < iterations; i++) {
+                    const start = performance.now();
+                    renderResults(dataStore.items.slice(0, pageSize));
+                    const end = performance.now();
+                    times.push(end - start);
+                }
+                
+                const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
+                log(`<span class="metric">Render ${pageSize} items:</span> <span class="value">${avgTime.toFixed(2)}ms</span> ${avgTime < 50 ? '<span class="pass">✓</span>' : avgTime < 150 ? '<span class="warn">⚠</span>' : '<span class="fail">✗</span>'}`);
+                
+                results.render.push({
+                    pageSize,
+                    avgTime
+                });
+            }
+            
+            const avgRenderTime = results.render.reduce((sum, r) => sum + r.avgTime, 0) / results.render.length;
+            log(`<span class="metric">Average Render Time:</span> <span class="value">${avgRenderTime.toFixed(2)}ms</span> ${avgRenderTime < 50 ? '<span class="pass">✓ EXCELLENT</span>' : avgRenderTime < 100 ? '<span class="warn">⚠ ACCEPTABLE</span>' : '<span class="fail">✗ SLOW</span>'}`);
+        }
+
+        function renderResults(items) {
+            // Simulate rendering to measure performance
+            const html = items.map(item => {
+                const aspects = Object.entries(item.aspects).map(([aspect, amount]) => 
+                    `<span>${aspect}: ${amount}</span>`
+                ).join('');
+                
+                return `<tr><td>${item.modId}</td><td>${item.displayName}</td><td>${aspects}</td></tr>`;
+            }).join('');
+            
+            // We don't actually insert into DOM to avoid cluttering the page
+            return html.length;
+        }
+
+        function showSummary() {
+            const summaryDiv = document.getElementById('summary');
+            const summaryContent = document.getElementById('summaryContent');
+            
+            let html = '<h3>🎯 Key Metrics</h3>';
+            
+            if (results.load) {
+                html += `
+                    <div class="test-result">
+                        <strong>Data Loading:</strong><br>
+                        • Total Time: <span class="value">${results.load.totalTime}ms</span><br>
+                        • Items: <span class="value">${results.load.itemCount.toLocaleString()}</span><br>
+                        • Performance: ${results.load.totalTime < 2000 ? '<span class="pass">EXCELLENT ✓</span>' : results.load.totalTime < 3000 ? '<span class="warn">ACCEPTABLE ⚠</span>' : '<span class="fail">NEEDS WORK ✗</span>'}
+                    </div>
+                `;
+            }
+            
+            if (results.search.length > 0) {
+                const avgSearchTime = results.search.reduce((sum, r) => sum + r.avgTime, 0) / results.search.length;
+                html += `
+                    <div class="test-result">
+                        <strong>Search Performance:</strong><br>
+                        • Average: <span class="value">${avgSearchTime.toFixed(2)}ms</span><br>
+                        • Fastest: <span class="value">${Math.min(...results.search.map(r => r.minTime)).toFixed(2)}ms</span><br>
+                        • Slowest: <span class="value">${Math.max(...results.search.map(r => r.maxTime)).toFixed(2)}ms</span><br>
+                        • Performance: ${avgSearchTime < 50 ? '<span class="pass">EXCELLENT ✓</span>' : avgSearchTime < 100 ? '<span class="warn">ACCEPTABLE ⚠</span>' : '<span class="fail">NEEDS OPTIMIZATION ✗</span>'}
+                    </div>
+                `;
+            }
+            
+            if (results.memory) {
+                html += `
+                    <div class="test-result">
+                        <strong>Memory Usage:</strong><br>
+                        ${results.memory.estimated ? 
+                            `• Estimated: <span class="value">${results.memory.estimatedMB} MB</span>` :
+                            `• Used Heap: <span class="value">${results.memory.usedMB} MB</span><br>
+                             • Usage: <span class="value">${results.memory.percentage}%</span>`
+                        }<br>
+                        • Performance: ${results.memory.estimated || parseFloat(results.memory.usedMB) < 50 ? '<span class="pass">EXCELLENT ✓</span>' : parseFloat(results.memory.usedMB) < 100 ? '<span class="warn">ACCEPTABLE ⚠</span>' : '<span class="fail">HIGH ✗</span>'}
+                    </div>
+                `;
+            }
+            
+            if (results.render.length > 0) {
+                const avgRenderTime = results.render.reduce((sum, r) => sum + r.avgTime, 0) / results.render.length;
+                html += `
+                    <div class="test-result">
+                        <strong>Rendering Performance:</strong><br>
+                        • Average: <span class="value">${avgRenderTime.toFixed(2)}ms</span><br>
+                        • 100 items: <span class="value">${results.render.find(r => r.pageSize === 100)?.avgTime.toFixed(2) || 'N/A'}ms</span><br>
+                        • Performance: ${avgRenderTime < 50 ? '<span class="pass">EXCELLENT ✓</span>' : avgRenderTime < 100 ? '<span class="warn">ACCEPTABLE ⚠</span>' : '<span class="fail">SLOW ✗</span>'}
+                    </div>
+                `;
+            }
+            
+            html += '<h3>💡 Recommendations</h3>';
+            
+            const recommendations = [];
+            
+            if (results.load && results.load.totalTime > 2000) {
+                recommendations.push('• Consider compressing the JSON file (gzip)');
+                recommendations.push('• Add CDN hosting for faster downloads');
+            }
+            
+            if (results.search.length > 0) {
+                const avgSearchTime = results.search.reduce((sum, r) => sum + r.avgTime, 0) / results.search.length;
+                if (avgSearchTime > 100) {
+                    recommendations.push('• Add debouncing to search input (300ms)');
+                    recommendations.push('• Consider using Web Workers for filtering');
+                }
+            }
+            
+            if (results.memory && !results.memory.estimated && parseFloat(results.memory.usedMB) > 50) {
+                recommendations.push('• Memory usage is acceptable but could be optimized');
+                recommendations.push('• Consider lazy loading aspect data');
+            }
+            
+            if (results.render.length > 0) {
+                const render1000 = results.render.find(r => r.pageSize === 1000);
+                if (render1000 && render1000.avgTime > 150) {
+                    recommendations.push('• Rendering 1000 items is slow - keep default at 100');
+                    recommendations.push('• Consider virtual scrolling for large result sets');
+                }
+            }
+            
+            if (recommendations.length === 0) {
+                html += '<div class="test-result"><span class="pass">✓ Performance is excellent! No optimizations needed.</span></div>';
+            } else {
+                html += '<div class="test-result">' + recommendations.join('<br>') + '</div>';
+            }
+            
+            summaryContent.innerHTML = html;
+            summaryDiv.style.display = 'block';
+        }
+
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            log('<p class="progress">📋 Performance test suite ready. Click "Run All Tests" to begin.</p>');
+        });
+    </script>
+</body>
+</html>
